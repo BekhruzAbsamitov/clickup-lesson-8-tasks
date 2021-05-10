@@ -103,7 +103,14 @@ public class WorkspaceServiceImpl implements WorkspaceService {
 
     @Override
     public ApiResponse edit(WorkspaceDTO workspaceDTO) {
-        return null;
+
+        final boolean existsByName = workspaceRepository.existsByName(workspaceDTO.getName());
+        if (existsByName) {
+            workspaceRepository.deleteByName(workspaceDTO.getName());
+            return new ApiResponse("Deleted!", true);
+        }
+
+        return new ApiResponse("Workspace not found", false);
     }
 
     @Override

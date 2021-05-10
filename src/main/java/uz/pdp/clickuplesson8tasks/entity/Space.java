@@ -13,33 +13,28 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "owner_id"})})
-public class Workspace extends AbsLongEntity {
+public class Space extends AbsLongEntity {
 
-    @Column(nullable = false)
     private String name;
 
     private String color;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    private User owner;
-
-    @Column(nullable = false)
     private String initials;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne
     private Attachment avatar;
+
+    private boolean accessType;
+
+    @ManyToOne
+    private Workspace workspace;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    private User owner;
 
     @PrePersist
     @PreUpdate
     public void setInitials() {
         this.initials = name.substring(0, 1);
-    }
-
-    public Workspace(String name, String color, User owner, Attachment avatar) {
-        this.name = name;
-        this.color = color;
-        this.owner = owner;
-        this.avatar = avatar;
     }
 }

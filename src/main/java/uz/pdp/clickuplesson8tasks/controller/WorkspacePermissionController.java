@@ -22,7 +22,6 @@ public class WorkspacePermissionController {
     }
 
 
-    @PreAuthorize(value = "hasAuthority('CAN_CHANGE_PERMISSON')")
     @PostMapping
     public HttpEntity<?> setRolePermission(WorkspacePermissionDTO workspacePermissionDTO) {
         ApiResponse apiResponse = workspacePermissionService.setRolePermission(workspacePermissionDTO);

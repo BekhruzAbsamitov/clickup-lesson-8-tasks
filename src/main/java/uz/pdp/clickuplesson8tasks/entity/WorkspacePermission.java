@@ -4,8 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import uz.pdp.clickuplesson8tasks.entity.enums.WorkspaceRoleName;
-import uz.pdp.clickuplesson8tasks.entity.template.AbsLongEntity;
+import uz.pdp.clickuplesson8tasks.entity.enums.WorkspacePermissionName;
 import uz.pdp.clickuplesson8tasks.entity.template.AbsUUIDEntity;
 
 import javax.persistence.*;
@@ -15,15 +14,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class WorkspaceRole extends AbsUUIDEntity {
+public class WorkspacePermission extends AbsUUIDEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    private Workspace workspace;
-
-    @Column(nullable = false)
-    private String name;
+    private WorkspaceRole workspaceRole;    // Vice president
 
     @Enumerated(EnumType.STRING)
-    private WorkspaceRoleName extendsRole;
-
+    private WorkspacePermissionName permissionName;// add_member, remove_member
 }

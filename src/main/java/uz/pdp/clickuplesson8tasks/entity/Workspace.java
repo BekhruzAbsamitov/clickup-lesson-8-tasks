@@ -4,33 +4,43 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import uz.pdp.clickuplesson8tasks.entity.template.AbsEntity;
+import uz.pdp.clickuplesson8tasks.entity.template.AbsLongEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import java.util.List;
+import javax.persistence.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Workspace extends AbsEntity {
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "owner_id"})})
+public class Workspace extends AbsLongEntity {
 
+    @Column(nullable = false)
     private String name;
 
     private String color;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private User owner;
 
+    @Column(nullable = false)
     private String initials;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Attachment avatar;
 
-    @ManyToMany
-    List<Permission> permissions;
+
+    @PrePersist
+    @PreUpdate
+    public void setInitials() {
+        this.initials = name.substring(0, 1);
+    }
+
+    public Workspace(String name, String color, User owner, Attachment avatar) {
+        this.name = name;
+        this.color = color;
+        this.owner = owner;
+        this.avatar = avatar;
+    }
 }

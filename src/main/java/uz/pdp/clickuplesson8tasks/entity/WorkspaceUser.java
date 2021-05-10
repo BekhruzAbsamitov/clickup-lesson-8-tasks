@@ -4,11 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import uz.pdp.clickuplesson8tasks.entity.template.AbsEntity;
+import uz.pdp.clickuplesson8tasks.entity.enums.WorkspaceRoleName;
+import uz.pdp.clickuplesson8tasks.entity.template.AbsUUIDEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @EqualsAndHashCode(callSuper = true)
@@ -16,23 +15,20 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class WorkspaceUser extends AbsEntity {
+public class WorkspaceUser extends AbsUUIDEntity {
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Workspace workspace;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User user;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private WorkspaceRole workspaceRole;
 
-    private String initials;
+    @Column(nullable = false)
+    private Timestamp invitedDate;
 
-    @OneToOne
-    private Attachment avatar;
+    private Timestamp joinedDate;
 
-    private Timestamp dateInvited;
-
-    private Timestamp dateJoined;
 }

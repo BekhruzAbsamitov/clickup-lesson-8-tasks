@@ -1,11 +1,10 @@
 package uz.pdp.clickuplesson8tasks.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import uz.pdp.clickuplesson8tasks.entity.template.AbsEntity;
+import uz.pdp.clickuplesson8tasks.entity.template.AbsUUIDEntity;
 
 import javax.persistence.Entity;
 
@@ -14,7 +13,7 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Attachment extends AbsEntity {
+public class Attachment extends AbsUUIDEntity {
 
     private String name;
 
@@ -23,4 +22,6 @@ public class Attachment extends AbsEntity {
     private Long size;
 
     private String contentType;
+
+
 }

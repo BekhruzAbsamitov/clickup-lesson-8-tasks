@@ -20,4 +20,8 @@ public interface WorkspaceUserRepository extends JpaRepository<WorkspaceUser, UU
     void deleteByWorkspaceIdAndUserId(Long workspace_id, UUID user_id);
 
     List<WorkspaceUser> findAllByWorkspaceRoleName(String workspaceRole_name);
+
+    List<WorkspaceUser> findAllByWorkspaceId(Long workspace_id);
+
+     List<WorkspaceUser> findAllByUserId(UUID user_id);
 }

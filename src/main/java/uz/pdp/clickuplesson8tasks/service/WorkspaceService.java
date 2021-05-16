@@ -4,6 +4,7 @@ import javassist.NotFoundException;
 import uz.pdp.clickuplesson8tasks.dto.ApiResponse;
 import uz.pdp.clickuplesson8tasks.dto.MemberDTO;
 import uz.pdp.clickuplesson8tasks.dto.WorkspaceDTO;
+import uz.pdp.clickuplesson8tasks.dto.WorkspaceRoleDTO;
 import uz.pdp.clickuplesson8tasks.entity.User;
 import uz.pdp.clickuplesson8tasks.entity.Workspace;
 
@@ -25,6 +26,13 @@ public interface WorkspaceService {
 
     List<User> getMembersAndGuests();
 
-    List<Workspace> getWorkspaceList();
+    List<WorkspaceDTO> geMytWorkspaceList(User user);
 
+    List<MemberDTO> getMemberAndGuest(Long id);
+
+    ApiResponse addOrRemovePermissionToRole(WorkspaceRoleDTO workspaceRoleDTO) throws NotFoundException;
+
+    ApiResponse addRole(Long workspaceId, WorkspaceRoleDTO workspaceRoleDTO, User user);
+
+    ApiResponse editWorkspace(WorkspaceDTO workspaceDTO) throws NotFoundException;
 }

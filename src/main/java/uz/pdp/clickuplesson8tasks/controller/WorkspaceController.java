@@ -1,13 +1,13 @@
 package uz.pdp.clickuplesson8tasks.controller;
 
 import javassist.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.clickuplesson8tasks.dto.ApiResponse;
 import uz.pdp.clickuplesson8tasks.dto.MemberDTO;
 import uz.pdp.clickuplesson8tasks.dto.WorkspaceDTO;
+import uz.pdp.clickuplesson8tasks.dto.WorkspaceRoleDTO;
 import uz.pdp.clickuplesson8tasks.entity.User;
 import uz.pdp.clickuplesson8tasks.entity.Workspace;
 import uz.pdp.clickuplesson8tasks.security.CurrentUser;
@@ -24,12 +24,6 @@ public class WorkspaceController {
 
     public WorkspaceController(WorkspaceService workspaceService) {
         this.workspaceService = workspaceService;
-    }
-
-    @GetMapping("/list")
-    public HttpEntity<?> getWorkspaceList() {
-        List<Workspace> workspaces = workspaceService.getWorkspaceList();
-        return ResponseEntity.status(workspaces != null ? 201 : 409).body(workspaces);
     }
 
     @GetMapping
@@ -65,7 +59,8 @@ public class WorkspaceController {
     }
 
     @PostMapping("/addOrEditOrRemove/{id}")
-    public HttpEntity<?> addOrEditOrRemoveWorkspace(@PathVariable Long id, @RequestBody MemberDTO memberDTO) throws NotFoundException {
+    public HttpEntity<?> addOrEditOrRemoveWorkspace(@PathVariable Long id,
+                                                    @RequestBody MemberDTO memberDTO) throws NotFoundException {
 
         ApiResponse apiResponse = workspaceService.addOrEditOrRemove(id, memberDTO);
         return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 409).body(apiResponse);
@@ -76,4 +71,38 @@ public class WorkspaceController {
         ApiResponse response = workspaceService.joinToWorkspace(id, user);
         return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
     }
+
+    @GetMapping("/member/{id}")
+    public HttpEntity<?> getMemberAndGuest(@PathVariable Long id) {
+        List<MemberDTO> members = workspaceService.getMemberAndGuest(id);
+        return ResponseEntity.ok(members);
+    }
+
+    @PutMapping("/editWorkspace")
+    public HttpEntity<?> editWorkspace(@RequestBody WorkspaceDTO workspaceDTO) throws NotFoundException {
+        ApiResponse response = workspaceService.editWorkspace(workspaceDTO);
+        return ResponseEntity.status(response.isSuccess() ? 201 : 409).body(response);
+    }
+
+
+    @GetMapping("/myWorkspaces")
+    public HttpEntity<?> getMyWorkspaceList(@CurrentUser User user) {
+        List<WorkspaceDTO> workspaces = workspaceService.geMytWorkspaceList(user);
+        return ResponseEntity.status(workspaces != null ? 201 : 409).body(workspaces);
+    }
+
+    @PostMapping("/role")
+    public HttpEntity<?> addRole(@RequestParam Long workspaceId,
+                                 @RequestBody WorkspaceRoleDTO workspaceRoleDTO,
+                                 @CurrentUser User user) {
+        ApiResponse apiResponse = workspaceService.addRole(workspaceId, workspaceRoleDTO, user);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 409).body(apiResponse);
+    }
+
+    @PutMapping("/addOrRemovePermission")
+    public HttpEntity<?> addOrRemovePermissionToRole(@RequestBody WorkspaceRoleDTO workspaceRoleDTO) throws NotFoundException {
+        ApiResponse apiResponse = workspaceService.addOrRemovePermissionToRole(workspaceRoleDTO);
+        return ResponseEntity.status(apiResponse.isSuccess() ? 201 : 409).body(apiResponse);
+    }
+
 }

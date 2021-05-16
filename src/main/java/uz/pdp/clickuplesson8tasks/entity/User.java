@@ -11,6 +11,7 @@ import uz.pdp.clickuplesson8tasks.entity.enums.SystemRoleName;
 import uz.pdp.clickuplesson8tasks.entity.template.AbsUUIDEntity;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -41,6 +42,8 @@ public class User extends AbsUUIDEntity implements UserDetails {
     private boolean isAccountNonLocked = true;
     private boolean isCredentialsNonExpired = true;
     private boolean isEnabled;
+
+    private Timestamp lastActiveTime;
 
     @Enumerated(EnumType.STRING)
     private SystemRoleName systemRoleName;

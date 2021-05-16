@@ -21,7 +21,6 @@ public class ProjectUserController {
         this.projectUserRepository = projectUserRepository;
     }
 
-
     @PostMapping("/add")
     public HttpEntity<?> add(@RequestParam UUID memberId, @RequestParam Long projectId, @RequestParam Long taskId) {
         final ApiResponse response = projectUserRepository.addMember(memberId, projectId, taskId);

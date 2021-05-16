@@ -43,6 +43,4 @@ public class SpaceController {
         List<Space> spaceList = spaceService.get();
         return ResponseEntity.status(spaceList.isEmpty() ? 409 : 201).body(spaceList);
     }
-
-
 }
